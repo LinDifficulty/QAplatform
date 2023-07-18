@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}的个人主页{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/personal.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row" style="margin-top: 20px; ">
+        <div class="col"></div>
+        <div class="col-10" style="background-color: #fff;padding: 20px;">
+            <p class="H">个人主页</p>
+            <img class="images" src="{{ url_for('static',filename='images/avatar.jpg') }}" alt="">
+            <br>
+            <span class="text-center">
+                <p>昵称 : {{ user.username }}</p>
+                <p>邮箱 : {{ user.email }}</p>
+                <p>账号建立时间 : {{ user.join_time }}</p>
+            </span>
+            <form action="#" style="text-align: right" method="post">
+                <input type="hidden" name="question_id" value="{{ user.id }}">
+                <button class="btn btn-primary">修改信息</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+{% endblock %}
