@@ -1,8 +1,10 @@
 import wtforms
 from wtforms.validators import Email,Length,EqualTo, InputRequired
-from models import UserModel,EmailCaptcahModel
+from models import UserModel
+from redis import Redis
 from exts import db
 
+xtredis = Redis(host='127.0.0.1', port=6379)
 # From验证前端的数据是否符合要求
 class RegisterForm(wtforms.Form):
     email = wtforms.StringField(validators=[Email(message="邮箱格式错误!")])
@@ -23,8 +25,9 @@ class RegisterForm(wtforms.Form):
     def validate_captcha(self,field):
         captcha = field.data
         email = self.email.data
-        captcha_model = EmailCaptcahModel.query.filter_by(email=email,captcha=captcha).first()
+        captcha_model = xtredis.get(email)
         if not captcha_model:
+            print(captcha_model)
             raise wtforms.ValidationError(message="邮箱或验证码错误!")
         # else:
         #     db.session.delete(captcha_model)
@@ -39,7 +42,7 @@ class QuestionForm(wtforms.Form):
     content = wtforms.StringField(validators=[Length(min=1, message="内容格式错误")])
 
 class AnswerForm(wtforms.Form):
-    content = wtforms.StringField(validators=[Length(min=1, message="内容格式错误")])
+    content = wtforms.StringField(validators=[Length(min=1, message="内容格式错误！")])
     question_id = wtforms.IntegerField(validators=[InputRequired(message="必须要写入问题id！")])
 
 class DeleteAnswerForm(wtforms.Form):

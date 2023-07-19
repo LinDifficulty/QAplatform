@@ -4,11 +4,9 @@ from flask_mail import Message
 from flask import request
 import string
 import random
-from models import EmailCaptcahModel
-from .forms import RegisterForm, LoginForm, PersonalUserForm
+from .forms import RegisterForm, LoginForm, PersonalUserForm ,xtredis
 from models import UserModel
 from werkzeug.security import generate_password_hash,check_password_hash
-
 
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -74,9 +72,8 @@ def get_email_captcha():
     message = Message(subject="郁金香注册验证码", recipients=[email], body=f"欢迎使用郁金香，您的验证码是：{captcha},请不要将验证码告诉别人")
     mail.send(message)
 
-    email_captcha = EmailCaptcahModel(email=email, captcha=captcha)
-    db.session.add(email_captcha)
-    db.session.commit()
+    xtredis.set(email,captcha,ex=300)
+
 
     return jsonify({"code": 200, "message": "", "data": None})
 
