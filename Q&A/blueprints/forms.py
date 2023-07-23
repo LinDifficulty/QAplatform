@@ -33,21 +33,26 @@ class RegisterForm(wtforms.Form):
         #     db.session.delete(captcha_model)
         #     db.session.commit()
 
+
 class LoginForm(wtforms.Form):
     email = wtforms.StringField(validators=[Email(message="邮箱格式错误!")])
     password = wtforms.StringField(validators=[Length(min=6, max=20, message="密码格式错误")])
+
 
 class QuestionForm(wtforms.Form):
     title = wtforms.StringField(validators=[Length(min=1, max=100, message="标题格式错误")])
     content = wtforms.StringField(validators=[Length(min=1, message="内容格式错误")])
 
+
 class AnswerForm(wtforms.Form):
     content = wtforms.StringField(validators=[Length(min=1, message="内容格式错误！")])
     question_id = wtforms.IntegerField(validators=[InputRequired(message="必须要写入问题id！")])
 
+
 class DeleteAnswerForm(wtforms.Form):
     question_id = wtforms.IntegerField(validators=[InputRequired(message="必须要写入问题id！")])
     answer_id = wtforms.IntegerField(validators=[InputRequired(message="必须要写入答案id！")])
+
 
 class PersonalUserForm(wtforms.Form):
     user_id = wtforms.IntegerField()

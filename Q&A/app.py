@@ -21,6 +21,7 @@ migrate = Migrate(app, db)
 app.register_blueprint(qa_bp)
 app.register_blueprint(auth_bp)
 
+
 @app.before_request
 def my_before_request():
     user_id = session.get("user_id")
@@ -29,6 +30,7 @@ def my_before_request():
         setattr(g, "user", user)
     else:
         setattr(g, "user", None)
+
 
 @app.context_processor
 def my_context_processor():

@@ -4,7 +4,6 @@ function bindEmailCaptchaClick(){
         var $this = $(this)
         //阻止默认的事件
         event.preventDefault();
-
         var email = $("#exampleInputEmail1").val();
         $.ajax({
             url:"/auth/captcha/email?email="+email,

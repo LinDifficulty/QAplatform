@@ -60,6 +60,7 @@ def search():
     questions = QuestionModel.query.filter(QuestionModel.title.contains(q)).all()
     return render_template("index.html", questions=questions)
 
+
 @bp.route("/answer/public/delete_question", methods = ["GET", "POST"])
 def delete_question():
     form = AnswerForm(request.form)
@@ -71,6 +72,7 @@ def delete_question():
     db.session.delete(question)
     db.session.commit()
     return redirect("/")
+
 
 @bp.route("/answer/public/delete_answer", methods = ["GET", "POST"])
 def delete_answer():
